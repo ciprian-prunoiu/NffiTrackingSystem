@@ -1,0 +1,72 @@
+﻿<Window x:Class="NffiTrackingSystem.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        Title="NFFI Tracking Client" Height="800" Width="1200" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340"/><ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0" Margin="0,0,10,0" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <GroupBox Header="Server connection" Margin="0,0,0,10">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Server IP:" Margin="0,0,0,2"/>
+                        <TextBox x:Name="ServerIpTextBox" Text="127.0.0.1" Margin="0,0,0,5"/>
+                        <TextBlock Text="Port:" Margin="0,0,0,2"/>
+                        <TextBox x:Name="ServerPortTextBox" Text="8888" Margin="0,0,0,5"/>
+                        <CheckBox x:Name="TlsCheckBox" Content="TLS mutual" Margin="0,5,0,5" Checked="TlsCheckBox_Changed" Unchecked="TlsCheckBox_Changed"/>
+                        <StackPanel x:Name="TlsPanel" Visibility="Collapsed" Margin="0,0,0,5">
+                            <TextBlock Text="Client PFX:" Margin="0,3,0,2"/>
+                            <TextBox x:Name="ClientPfxTextBox" Text="certs\client.pfx" Margin="0,0,0,3"/>
+                            <TextBlock Text="Password:" Margin="0,0,0,2"/>
+                            <TextBox x:Name="ClientPfxPasswordTextBox" Text="client123" Margin="0,0,0,3"/>
+                            <TextBlock Text="Root CA:" Margin="0,0,0,2"/>
+                            <TextBox x:Name="RootCaTextBox" Text="certs\rootCA.cer"/>
+                        </StackPanel>
+                        <Button x:Name="ConnectButton" Content="Connect" Click="ConnectButton_Click" Margin="0,5,0,3"/>
+                        <Button x:Name="DisconnectButton" Content="Disconnect" Click="DisconnectButton_Click" IsEnabled="False"/>
+                        <TextBlock x:Name="ConnectionStatusText" Margin="0,5,0,0" FontWeight="Bold" Foreground="DarkRed" Text="Disconnected"/>
+                        <TextBlock x:Name="MapStatusText" Margin="0,3,0,0" FontWeight="Bold" Foreground="DarkOrange" Text="Map: loading..."/>
+                        <Button x:Name="ApiKeyButton" Content="Google Maps API Key..." Click="ApiKeyButton_Click" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Vehicle identification" Margin="0,0,0,10">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Unit ID:" Margin="0,0,0,2"/>
+                        <TextBox x:Name="UnitIdTextBox" Text="MASINA_01" Margin="0,0,0,5"/>
+                        <TextBlock Text="Name:" Margin="0,0,0,2"/>
+                        <TextBox x:Name="UnitNameTextBox" Text="Recon Vehicle" Margin="0,0,0,5"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Movement simulation" Margin="0,0,0,10">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Point A (lat, lon):"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBox x:Name="LatATextBox" Text="44.4268" Width="105" Margin="0,0,5,0"/>
+                            <TextBox x:Name="LonATextBox" Text="26.1025" Width="105"/>
+                        </StackPanel>
+                        <TextBlock Text="Point B (lat, lon):"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBox x:Name="LatBTextBox" Text="45.6427" Width="105" Margin="0,0,5,0"/>
+                            <TextBox x:Name="LonBTextBox" Text="25.5887" Width="105"/>
+                        </StackPanel>
+                        <TextBlock Text="Update interval (ms):" Margin="0,0,0,2"/>
+                        <TextBox x:Name="IntervalTextBox" Text="100" Margin="0,0,0,5"/>
+                        <TextBlock Text="Trip duration (seconds):" Margin="0,0,0,2"/>
+                        <TextBox x:Name="StepsTextBox" Text="30" Margin="0,0,0,5"/>
+                        <TextBlock Text="Initial delay (ms):" Margin="0,0,0,2"/>
+                        <TextBox x:Name="InitialDelayTextBox" Text="500" Margin="0,0,0,5"/>
+                        <Button x:Name="StartSimulationButton" Content="Start Simulation" Click="StartSimulationButton_Click" IsEnabled="False"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Log">
+                    <ListBox x:Name="LogListBox" Height="160" FontFamily="Consolas" FontSize="11"/>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+        <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1">
+            <wv2:WebView2 x:Name="MapWebView"/>
+        </Border>
+    </Grid>
+</Window>

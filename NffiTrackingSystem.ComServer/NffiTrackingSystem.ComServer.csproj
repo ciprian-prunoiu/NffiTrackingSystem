@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <EnableComHosting>true</EnableComHosting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>NffiTrackingSystem.ComServer</AssemblyName>
+	<RegisterComInterop>true</RegisterComInterop>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NffiTrackingSystem.Shared\NffiTrackingSystem.Shared.csproj" />
+    <ProjectReference Include="..\NffiTrackingSystem.Core\NffiTrackingSystem.Core.csproj" />
+  </ItemGroup>
+</Project>

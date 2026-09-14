@@ -1,0 +1,59 @@
+﻿<Window x:Class="NffiTrackingSystem.Server.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        Title="NFFI Tracking Server" Height="820" Width="1450" WindowStartupLocation="CenterScreen">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+            <TextBlock Text="Port:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="PortTextBox" Width="70" Text="8888" Margin="0,0,10,0"/>
+            <CheckBox x:Name="TlsCheckBox" Content="TLS mutual" VerticalAlignment="Center" Margin="0,0,15,0"
+                      Checked="TlsCheckBox_Changed" Unchecked="TlsCheckBox_Changed"/>
+            <Button x:Name="StartServerButton" Content="Start Server" Width="110" Click="StartServerButton_Click" Margin="0,0,5,0"/>
+            <Button x:Name="StopServerButton" Content="Stop Server" Width="110" Click="StopServerButton_Click" IsEnabled="False" Margin="0,0,15,0"/>
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" FontWeight="Bold" Foreground="DarkGreen" Text="Stopped"/>
+        </StackPanel>
+        <StackPanel x:Name="TlsPanel" Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8" Visibility="Collapsed">
+            <TextBlock Text="Server PFX:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="ServerPfxTextBox" Width="200" Text="certs\server.pfx" Margin="0,0,5,0"/>
+            <TextBlock Text="Password:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="ServerPfxPasswordTextBox" Width="100" Text="server123" Margin="0,0,10,0"/>
+            <TextBlock Text="Root CA:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="RootCaTextBox" Width="180" Text="certs\rootCA.cer"/>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/><ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TabControl Grid.Column="0" Margin="0,0,10,0">
+                <TabItem Header="Live log"><ListBox x:Name="LogListBox" FontFamily="Consolas" FontSize="11"/></TabItem>
+                <TabItem Header="Replay history">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Unit:" Margin="0,0,0,3"/>
+                            <ComboBox x:Name="ReplayUnitCombo" Margin="0,0,0,10"/>
+                            <TextBlock Text="Available range:" Margin="0,0,0,3"/>
+                            <TextBlock x:Name="ReplayRangeText" Text="-" FontFamily="Consolas" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                            <Button x:Name="LoadHistoryButton" Content="Load history" Height="30" Click="LoadHistoryButton_Click" Margin="0,0,0,10"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="PlayPauseButton" Content="Play" Width="70" Height="30" Click="PlayPauseButton_Click" IsEnabled="False" Margin="0,0,5,0"/>
+                                <ComboBox x:Name="SpeedCombo" Width="80" Height="30" SelectedIndex="1">
+                                    <ComboBoxItem>0.5x</ComboBoxItem><ComboBoxItem>1x</ComboBoxItem><ComboBoxItem>2x</ComboBoxItem><ComboBoxItem>4x</ComboBoxItem><ComboBoxItem>10x</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <TextBlock x:Name="ReplayTimeText" Text="-" FontFamily="Consolas" FontSize="11" Margin="0,0,0,6"/>
+                            <Slider x:Name="ReplaySlider" Minimum="0" Maximum="1000" ValueChanged="ReplaySlider_ValueChanged" Margin="0,0,0,10"/>
+                            <Button Content="Clear map" Height="26" Click="ClearMapButton_Click"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+            <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1">
+                <wv2:WebView2 x:Name="MapWebView"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
